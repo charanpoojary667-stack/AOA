@@ -1,0 +1,37 @@
+#include <stdio.h>
+void swap(int *a, int *b) {
+   int t = *a;
+   *a = *b;
+   *b = t;
+}
+int partition(int a[], int l, int h) {
+   int p = a[l], i = l + 1, j = h;
+   while (i <= j) {
+       while (i <= h && a[i] <= p) i++;
+       while (j >= l && a[j] > p) j--;
+       if (i < j) swap(&a[i], &a[j]);
+   }
+   swap(&a[l], &a[j]);
+   return j;
+}
+void quickSort(int a[], int l, int h) {
+   if (l < h) {
+       int p = partition(a, l, h);
+       quickSort(a, l, p - 1);
+       quickSort(a, p + 1, h);
+   }
+}
+int main() {
+    int n;
+    printf("Enter count: ");
+    scanf("%d", &n);
+    int a[n];
+    printf("Enter numbers: ");
+    for (int i = 0; i < n; i++)
+       scanf("%d", &a[i]);
+    quickSort(a, 0, n - 1);
+    printf("Sorted: ");
+    for (int i = 0; i < n; i++)
+       printf("%d ", a[i]);
+    return 0;
+}
