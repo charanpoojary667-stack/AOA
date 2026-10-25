@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+   int data;
+   struct Node *left, *right;
+};
+struct Node* insert(struct Node *r, int v) {
+   if (r == NULL) {
+       r = malloc(sizeof(struct Node));
+       r->data = v;
+       r->left = r->right = NULL;
+   }
+   else if (v < r->data)
+       r->left = insert(r->left, v);
+   else
+       r->right = insert(r->right, v);
+   return r;
+}
+void search(struct Node *r, int v) {
+   if (r == NULL) {
+       printf(" -> NULL (Not Found)\n");
+       Return;
+   }
+   printf(" -> Checking %d", r->data);
+   if (r->data == v)
+       printf(" (FOUND!)\n");
+   else if (v < r->data) {
+       printf(" [Go Left]");
+       search(r->left, v);
+   }
+   else {
+       printf(" [Go Right]");
+       search(r->right, v);
+   }
+}
+int main() {
+   struct Node *root = NULL;
+   int c, v;
+   while (1) {
+       printf("\n1.Insert 2.Search 3.Exit\nChoice: ");
+       scanf("%d", &c);
+       if (c == 1) {
+           printf("Enter value: ");
+           scanf("%d", &v);
+           root = insert(root, v);
+       }
+       else if (c == 2) {
+           printf("Search for: ");
+           scanf("%d", &v);
+           printf("Path:");
+           search(root, v);
+       }
+       else if (c == 3)
+           break;
+       else
+          printf("Invalid choice!\n");
+   }
+   return 0;
+}
