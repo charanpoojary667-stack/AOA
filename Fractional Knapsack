@@ -1,0 +1,31 @@
+#include <stdio.h>
+struct Item { int p, w; float r; };
+int main() {
+   int n, c, i, j;
+   float profit = 0;
+   printf("Enter number of items: ");
+   scanf("%d", &n);
+   struct Item a[n];
+   for (i = 0; i < n; i++) {
+      printf("Enter profit and weight of item %d: ", i+1);
+      scanf("%d%d", &a[i].p, &a[i].w);
+      a[i].r = (float)a[i].p / a[i].w;
+   }
+   printf("Enter knapsack capacity: ");
+   scanf("%d", &c);
+   for (i = 0; i < n-1; i++)
+      for (j = i+1; j < n; j++)
+           if (a[i].r < a[j].r) {
+               struct Item t = a[i]; a[i] = a[j]; a[j] = t;
+           }
+    printf("\nProfit\tWeight\tRatio\n");
+    for (i = 0; i < n; i++)
+       printf("%d\t%d\t%.2f\n", a[i].p, a[i].w, a[i].r);
+    for (i = 0; i < n && c > 0; i++) {
+       int w = a[i].w < c ? a[i].w : c;
+       profit += a[i].r * w;
+       c -= w;
+    }
+    printf("Maximum Profit = %.2f\n", profit);
+    return 0;
+}
